@@ -9,7 +9,7 @@
 
 #define MAX_TIMINGS	  86
 
-int DHT_PIN = 0;
+int DHT_PIN = 72;
 
 int read_dht_data(float *h, float *t)
 {
@@ -49,6 +49,7 @@ int read_dht_data(float *h, float *t)
       if ((current - lasttime) > 60)
       data[j / 8] |= 1;
       j++;
+      if (j > 39) goto finish;
     }
 
     laststate = state;
@@ -161,8 +162,11 @@ int main(int argc, char *argv[])
       if(read_dht_data(&h, &c) == 0) {
         switch(whattoshow) {
           case 0:
+          printf("%.1f %.1f\n", c, h);
+          /*
           printf("Humidity: %.1f %%\n", h);
           printf("Temperature: %.1f *C\n", c);
+          */
           break;
 
           case 1:
